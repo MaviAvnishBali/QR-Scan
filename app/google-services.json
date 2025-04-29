@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "654258657829",
+    "project_id": "qr-scan-bc00b",
+    "storage_bucket": "qr-scan-bc00b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654258657829:android:c065d4d92a7847cdd27dcc",
+        "android_client_info": {
+          "package_name": "com.avnish.qrscan"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZCtK3KFPRPuxb3-gluGcFpnQqySawEPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:654258657829:android:c065d4d92a7847cdd27dcc",
+        "android_client_info": {
+          "package_name": "com.avnish.qrscan.debug"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZCtK3KFPRPuxb3-gluGcFpnQqySawEPk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

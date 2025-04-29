@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+    
+    <!-- Background -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M0,0h200v200h-200z"/>
+    
+    <!-- QR Code Pattern -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M20,20h40v40h-40z"/>
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M140,20h40v40h-40z"/>
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M20,140h40v40h-40z"/>
+    
+    <!-- Inner squares -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M60,60h20v20h-20z"/>
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M120,60h20v20h-20z"/>
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M60,120h20v20h-20z"/>
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M120,120h20v20h-20z"/>
+    
+    <!-- Center square -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M80,80h40v40h-40z"/>
+    
+    <!-- Dots -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M40,40h10v10h-10z"/>
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M150,40h10v10h-10z"/>
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M40,150h10v10h-10z"/>
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M150,150h10v10h-10z"/>
+</vector> 
