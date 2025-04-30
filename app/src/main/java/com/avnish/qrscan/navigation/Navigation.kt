@@ -1,5 +1,7 @@
 package com.avnish.qrscan.navigation
 
+import FullScreenScanner
+import ScanScreen
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -9,7 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -25,11 +32,7 @@ import com.avnish.qrscan.R
 import com.avnish.qrscan.ads.AdManager
 import com.avnish.qrscan.screens.GenerateScreen
 import com.avnish.qrscan.screens.InfoScreen
-import com.avnish.qrscan.screens.ScanScreen
-import com.avnish.qrscan.screens.SplashScreen
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
+
 
 sealed class Screen(val route: String, val title: String, val iconResId: Int) {
     object Scan : Screen("scan", "Scan", R.drawable.ic_scan)
@@ -45,7 +48,7 @@ fun MainNavigation() {
         Screen.Generate,
         Screen.Info
     )
-    
+
     Scaffold(
         bottomBar = {
             Column {
@@ -57,7 +60,7 @@ fun MainNavigation() {
                 ) {
                     val navBackStackEntry by navController.currentBackStackEntryAsState()
                     val currentDestination = navBackStackEntry?.destination
-                    
+
                     items.forEach { screen ->
                         NavigationBarItem(
                             icon = {
@@ -109,7 +112,7 @@ fun MainNavigation() {
             }
         ) {
 
-            composable(Screen.Scan.route) { 
+            composable(Screen.Scan.route) {
                 ScanScreen(
                     onNavigateToGenerate = {
                         navController.navigate(Screen.Generate.route) {
@@ -123,7 +126,7 @@ fun MainNavigation() {
                     }
                 )
             }
-            composable(Screen.Generate.route) { 
+            composable(Screen.Generate.route) {
                 GenerateScreen(
                     onNavigateToScan = {
                         navController.navigate(Screen.Scan.route) {
@@ -137,7 +140,7 @@ fun MainNavigation() {
                     }
                 )
             }
-            composable(Screen.Info.route) { 
+            composable(Screen.Info.route) {
                 InfoScreen(
                     onNavigateToScan = {
                         navController.navigate(Screen.Scan.route) {
