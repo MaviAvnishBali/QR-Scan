@@ -164,7 +164,7 @@ fun GenerateScreen(
             
             if (!AdManager.areAdsRemoved()) {
                 Spacer(modifier = Modifier.height(16.dp))
-                
+
                 BannerAdView(
                     modifier = Modifier
                         .fillMaxWidth()

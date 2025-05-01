@@ -1,3 +1,5 @@
+package com.avnish.qrscan.screens
+
 import android.Manifest
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -46,6 +48,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
+import com.avnish.qrscan.ads.AdManager
+import com.avnish.qrscan.component.BannerAdView
 import com.avnish.qrscan.scan.CameraPreview
 import com.google.mlkit.vision.barcode.BarcodeScanner
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions
@@ -103,6 +107,16 @@ fun ScanScreen(
                 ScanResultCard(result = result) {
                     scanResult = null
                 }
+            }
+
+            if (!AdManager.areAdsRemoved()) {
+                Spacer(modifier = Modifier.height(16.dp))
+                BannerAdView(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    useLargeBanner = true
+                )
             }
         }
     }

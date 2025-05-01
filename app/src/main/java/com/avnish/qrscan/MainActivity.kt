@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import com.avnish.qrscan.navigation.MainNavigation
 import com.avnish.qrscan.ui.theme.QRScanTheme
@@ -25,6 +24,17 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
+        setContent {
+            QRScanTheme {
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    MainNavigation()
+                }
+            }
+        }
+
         // Initialize ads in background
         lifecycleScope.launch {
             MobileAds.initialize(this@MainActivity)
@@ -37,17 +47,6 @@ class MainActivity : ComponentActivity() {
 
         // Initialize AdMob
         AdManager.initialize(this)
-
-        setContent {
-            QRScanTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    MainNavigation()
-                }
-            }
-        }
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

@@ -74,4 +74,4 @@
 -renamesourcefileattribute SourceFile
 
 # Remove debug attributes
--stripattributes SourceFile,LineNumberTable
+#-stripattributes SourceFile,LineNumberTable

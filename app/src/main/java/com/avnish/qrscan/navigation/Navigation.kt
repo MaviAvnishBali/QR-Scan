@@ -1,7 +1,5 @@
 package com.avnish.qrscan.navigation
 
-import FullScreenScanner
-import ScanScreen
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -9,14 +7,15 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -32,6 +31,7 @@ import com.avnish.qrscan.R
 import com.avnish.qrscan.ads.AdManager
 import com.avnish.qrscan.screens.GenerateScreen
 import com.avnish.qrscan.screens.InfoScreen
+import com.avnish.qrscan.screens.ScanScreen
 
 
 sealed class Screen(val route: String, val title: String, val iconResId: Int) {
@@ -52,7 +52,7 @@ fun MainNavigation() {
     Scaffold(
         bottomBar = {
             Column {
-                AdManager.BannerAd()
+//                AdManager.BannerAd()
                 NavigationBar(
                     modifier = Modifier.fillMaxWidth(),
                     containerColor = MaterialTheme.colorScheme.surface,
@@ -156,4 +156,4 @@ fun MainNavigation() {
             }
         }
     }
-} 
+}
