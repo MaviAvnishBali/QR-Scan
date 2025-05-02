@@ -1,6 +1,5 @@
-package com.avnish.qrscan.component
+package com.avnish.qrscan.ads
 
-import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.avnish.qrscan.ads.AdManager
 import com.google.android.gms.ads.AdView
 
 @Composable

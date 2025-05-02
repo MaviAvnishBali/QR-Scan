@@ -1,4 +1,4 @@
-package com.avnish.qrscan.scan
+package com.avnish.qrscan.component
 
 import androidx.camera.view.CameraController
 import androidx.compose.runtime.Composable

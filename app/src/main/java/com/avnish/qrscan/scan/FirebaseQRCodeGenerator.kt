@@ -1,4 +1,4 @@
-package com.avnish.qrscan.utils
+package com.avnish.qrscan.scan
 
 import android.content.Context
 import android.graphics.Bitmap

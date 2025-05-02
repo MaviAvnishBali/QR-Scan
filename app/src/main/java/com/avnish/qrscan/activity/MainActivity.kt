@@ -1,4 +1,4 @@
-package com.avnish.qrscan
+package com.avnish.qrscan.activity
 
 import android.os.Bundle
 import android.widget.Toast

@@ -22,8 +22,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.avnish.qrscan.R
 import com.avnish.qrscan.ads.AdManager
-import com.avnish.qrscan.utils.QRCodeGenerator
-import com.avnish.qrscan.component.BannerAdView
+import com.avnish.qrscan.scan.QRCodeGenerator
+import com.avnish.qrscan.ads.BannerAdView
 
 @Composable
 fun GenerateScreen(

@@ -5,6 +5,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
 }
 
 val path: File = rootProject.file("gradle.properties")
@@ -19,8 +20,8 @@ android {
         applicationId = "com.avnish.qrscan"
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 3
+        versionName = "1.0.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -41,12 +42,6 @@ android {
             storePassword = keyProperties["storePassword"] as String
             keyAlias = keyProperties["keyAlias"] as String
         }
-        create("staging") {
-            storeFile = file(keyProperties["storefile"] as String)
-            keyPassword = keyProperties["keyPassword"] as String
-            storePassword = keyProperties["storePassword"] as String
-            keyAlias = keyProperties["keyAlias"] as String
-        }
     }
 
     buildTypes {
@@ -58,6 +53,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            firebaseCrashlytics {
+                mappingFileUploadEnabled = true
+            }
         }
         debug {
             isMinifyEnabled = false
@@ -92,6 +90,15 @@ android {
             excludes += "META-INF/*.kotlin_module"
         }
     }
+    splits {
+        abi {
+            isEnable = true
+            reset()
+            include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            isUniversalApk = true // Needed for Play Store closed testing or for sideloading
+        }
+    }
+
 }
 
 dependencies {
@@ -112,21 +119,22 @@ dependencies {
     implementation("com.google.mlkit:barcode-scanning:17.2.0")
 
     // CameraX for better camera integration (optional but recommended)
-    implementation("androidx.camera:camera-core:1.4.0-alpha04")
-    implementation("androidx.camera:camera-camera2:1.4.0-alpha04")
-    implementation("androidx.camera:camera-lifecycle:1.4.0-alpha04")
-    implementation("androidx.camera:camera-view:1.4.0-alpha04")
+    implementation("androidx.camera:camera-core:1.3.2")
+    implementation("androidx.camera:camera-camera2:1.3.2")
+    implementation("androidx.camera:camera-lifecycle:1.3.2")
+    implementation("androidx.camera:camera-view:1.3.2")
 
 // Add CameraX Extensions for better compatibility
     implementation("androidx.camera:camera-extensions:1.4.0-alpha04")
     implementation("com.google.zxing:core:3.5.3")
     
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-common-ktx")
+    implementation("com.google.firebase:firebase-config-ktx:21.6.1")
     
     // Navigation
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.7")
@@ -151,8 +159,6 @@ dependencies {
     // Play Core for in-app updates
     implementation("com.google.android.play:app-update-ktx:2.1.0")
 
-    // Firebase Remote Config
-    implementation("com.google.firebase:firebase-config-ktx:21.6.1")
 
     // Debug only dependencies
     debugImplementation("androidx.compose.ui:ui-tooling")

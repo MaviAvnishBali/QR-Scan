@@ -1,4 +1,4 @@
-package com.avnish.qrscan.screens
+package com.avnish.qrscan.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.avnish.qrscan.BuildConfig
-import com.avnish.qrscan.MainActivity
+import com.avnish.qrscan.screens.SplashScreen
 import com.avnish.qrscan.ui.theme.QRScanTheme
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
