@@ -2,19 +2,11 @@ package com.avnish.qrscan.ads
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.gms.ads.AdView
 
@@ -26,7 +18,7 @@ fun BannerAdView(
     val context = LocalContext.current
     var adView by remember { mutableStateOf<AdView?>(null) }
     var isLoading by remember { mutableStateOf(true) }
-    
+
     LaunchedEffect(Unit) {
         adView = if (useLargeBanner) {
             AdManager.createLargeBannerAd(context)
@@ -35,11 +27,9 @@ fun BannerAdView(
         }
         isLoading = false
     }
-    
+
     Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(if (useLargeBanner) 100.dp else 50.dp),
+        modifier = modifier.fillMaxWidth(),
         contentAlignment = Alignment.Center
     ) {
         if (isLoading) {
@@ -51,10 +41,10 @@ fun BannerAdView(
             )
         }
     }
-    
+
     DisposableEffect(Unit) {
         onDispose {
             adView?.destroy()
         }
     }
-} 
+}
