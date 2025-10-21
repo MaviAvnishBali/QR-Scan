@@ -59,7 +59,7 @@
     public static int e(...);
 }
 
-# Optimize
+# Aggressive optimization for size reduction
 -optimizationpasses 5
 -dontusemixedcaseclassnames
 -dontskipnonpubliclibraryclasses
@@ -67,11 +67,33 @@
 -verbose
 -optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
 
-# Keep important attributes
--keepattributes Signature
--keepattributes *Annotation*
+# Remove unused code more aggressively
+-dontwarn **
+-ignorewarnings
+-allowaccessmodification
+-repackageclasses ''
+
+# Remove debug information
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 
-# Remove debug attributes
-#-stripattributes SourceFile,LineNumberTable
+# Keep only essential attributes
+-keepattributes Signature
+-keepattributes *Annotation*
+
+# Remove debug attributes for release
+-stripattributes SourceFile,LineNumberTable
+
+# Additional size optimizations
+-assumenosideeffects class * {
+    @androidx.annotation.Keep *;
+}
+
+# Remove unused resources
+-assumenosideeffects class android.util.Log {
+    public static *** d(...);
+    public static *** v(...);
+    public static *** i(...);
+    public static *** w(...);
+    public static *** e(...);
+}

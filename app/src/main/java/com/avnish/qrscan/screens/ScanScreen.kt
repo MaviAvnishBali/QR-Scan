@@ -115,7 +115,7 @@ fun ScanScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    useLargeBanner = true
+
                 )
             }
         }

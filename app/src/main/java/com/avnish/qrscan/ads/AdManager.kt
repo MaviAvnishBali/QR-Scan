@@ -21,23 +21,15 @@ import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
-import com.google.android.gms.ads.rewarded.RewardedAd
-import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
-import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
-import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
 
 object AdManager {
     private const val TAG = "AdManager"
-    // Banner Ad Unit IDs
+    
+    // Banner Ad Unit ID (using default banner size)
     private const val BANNER_AD_UNIT_ID = "ca-app-pub-6792593559558279/7821948023"
-    private const val LARGE_BANNER_AD_UNIT_ID = "ca-app-pub-6792593559558279/7821948023"
     
-    // Interstitial Ad Unit IDs
+    // Interstitial Ad Unit ID
     private const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-6792593559558279/6017431208"
-    private const val REWARDED_INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-6792593559558279/8514993225"
-    
-    // Rewarded Ad Unit ID
-    private const val REWARDED_AD_UNIT_ID = "ca-app-pub-6792593559558279/7820858657"
     
     private const val PREFS_NAME = "qr_scan_prefs"
     private const val KEY_ADS_REMOVED = "ads_removed"
@@ -45,15 +37,12 @@ object AdManager {
     private const val AD_COOLDOWN = 30000L // 30 seconds cooldown between ads
     
     private var interstitialAd: InterstitialAd? = null
-    private var rewardedInterstitialAd: RewardedInterstitialAd? = null
-    private var rewardedAd: RewardedAd? = null
     private lateinit var prefs: SharedPreferences
-    private const val TEST_DEVICE_ID = "ca-app-pub-6792593559558279/7821948023"
 
     private val adRequest = AdRequest.Builder()
         .apply {
             if (BuildConfig.DEBUG) {
-//                addTestDevice(TEST_DEVICE_ID)
+                // Add test device for debugging if needed
             }
         }
         .build()
@@ -61,7 +50,7 @@ object AdManager {
     fun initialize(context: Context) {
         prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         MobileAds.initialize(context)
-        loadAllAds(context)
+        loadInterstitialAd(context)
     }
 
     fun areAdsRemoved(): Boolean = prefs.getBoolean(KEY_ADS_REMOVED, false)
@@ -82,63 +71,10 @@ object AdManager {
 
     fun createBannerAd(context: Context): AdView {
         return AdView(context).apply {
-            setAdSize(AdSize.BANNER)
+            setAdSize(AdSize.BANNER) // Using default banner size
             adUnitId = BANNER_AD_UNIT_ID
             loadAd(AdRequest.Builder().build())
         }
-    }
-
-    fun createLargeBannerAd(context: Context): AdView {
-        return AdView(context).apply {
-            setAdSize(AdSize.LARGE_BANNER)
-            adUnitId = LARGE_BANNER_AD_UNIT_ID
-            loadAd(AdRequest.Builder().build())
-        }
-    }
-
-    private fun loadAllAds(context: Context) {
-        loadInterstitialAd(context)
-        loadRewardedInterstitialAd(context)
-        loadRewardedAd(context)
-    }
-
-
-    private fun loadRewardedInterstitialAd(context: Context) {
-        if (areAdsRemoved()) return
-        
-        RewardedInterstitialAd.load(
-            context,
-            REWARDED_INTERSTITIAL_AD_UNIT_ID,
-            AdRequest.Builder().build(),
-            object : RewardedInterstitialAdLoadCallback() {
-                override fun onAdLoaded(ad: RewardedInterstitialAd) {
-                    rewardedInterstitialAd = ad
-                }
-
-                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    rewardedInterstitialAd = null
-                }
-            }
-        )
-    }
-
-    private fun loadRewardedAd(context: Context) {
-        if (areAdsRemoved()) return
-        
-        RewardedAd.load(
-            context,
-            REWARDED_AD_UNIT_ID,
-            AdRequest.Builder().build(),
-            object : RewardedAdLoadCallback() {
-                override fun onAdLoaded(ad: RewardedAd) {
-                    rewardedAd = ad
-                }
-
-                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    rewardedAd = null
-                }
-            }
-        )
     }
 
     fun showInterstitialAd(activity: Activity, onAdDismissed: () -> Unit = {}) {
@@ -154,47 +90,17 @@ object AdManager {
         updateLastAdShown()
     }
 
-    fun showRewardedInterstitialAd(activity: Activity, onRewarded: () -> Unit, onAdDismissed: () -> Unit = {}) {
-        if (!canShowAd()) {
-            onAdDismissed()
-            return
-        }
-        
-        rewardedInterstitialAd?.show(activity) { rewardItem ->
-            onRewarded()
-        } ?: run {
-            loadRewardedInterstitialAd(activity)
-            onAdDismissed()
-        }
-        updateLastAdShown()
-    }
-
-    fun showRewardedAd(activity: Activity, onRewarded: () -> Unit, onAdDismissed: () -> Unit = {}) {
-        if (!canShowAd()) {
-            onAdDismissed()
-            return
-        }
-        
-        rewardedAd?.show(activity) { rewardItem ->
-            onRewarded()
-        } ?: run {
-            loadRewardedAd(activity)
-            onAdDismissed()
-        }
-        updateLastAdShown()
-    }
-
     @Composable
     fun BannerAd(
         modifier: Modifier = Modifier,
-        adUnitId: String = BANNER_AD_UNIT_ID // Use your actual ad unit ID
+        adUnitId: String = BANNER_AD_UNIT_ID
     ) {
         val context = LocalContext.current
         val lifecycleOwner = LocalLifecycleOwner.current
         val adView = remember {
             AdView(context).apply {
-                setAdSize(AdSize.BANNER)
-                this.adUnitId = adUnitId // Fixed: Actually use the adUnitId parameter
+                setAdSize(AdSize.BANNER) // Using default banner size
+                this.adUnitId = adUnitId
                 loadAd(adRequest)
             }
         }
@@ -211,7 +117,7 @@ object AdManager {
             lifecycleOwner.lifecycle.addObserver(observer)
             onDispose {
                 lifecycleOwner.lifecycle.removeObserver(observer)
-                adView.destroy() // Ensure proper cleanup
+                adView.destroy()
             }
         }
 
@@ -221,14 +127,10 @@ object AdManager {
         )
     }
 
-    // Add this cleanup function to your AdManager
     fun cleanup() {
         interstitialAd = null
-        rewardedInterstitialAd = null
-        rewardedAd = null
     }
 
-    // Improved error handling in ad loading callbacks
     private fun loadInterstitialAd(context: Context) {
         if (areAdsRemoved()) return
 

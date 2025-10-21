@@ -12,19 +12,14 @@ import com.google.android.gms.ads.AdView
 
 @Composable
 fun BannerAdView(
-    modifier: Modifier = Modifier,
-    useLargeBanner: Boolean = true
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     var adView by remember { mutableStateOf<AdView?>(null) }
     var isLoading by remember { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
-        adView = if (useLargeBanner) {
-            AdManager.createLargeBannerAd(context)
-        } else {
-            AdManager.createBannerAd(context)
-        }
+        adView = AdManager.createBannerAd(context) // Using default banner size
         isLoading = false
     }
 

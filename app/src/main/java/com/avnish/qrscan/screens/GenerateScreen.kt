@@ -132,7 +132,8 @@ fun GenerateScreen(
                             .padding(16.dp)
                             .fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                        verticalArrangement = Arrangement.spacedBy(8.dp
+                        )
                     ) {
                         Text(
                             text = "Generated QR Code",
@@ -141,7 +142,7 @@ fun GenerateScreen(
                                 color = MaterialTheme.colorScheme.primary
                             )
                         )
-                        
+
                         // Add a white background for the QR code
                         Box(
                             modifier = Modifier
@@ -161,7 +162,7 @@ fun GenerateScreen(
             }
 
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             if (!AdManager.areAdsRemoved()) {
                 Spacer(modifier = Modifier.height(16.dp))
 
@@ -169,7 +170,6 @@ fun GenerateScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    useLargeBanner = true
                 )
             }
         }
