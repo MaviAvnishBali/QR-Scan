@@ -1,0 +1,41 @@
+# Resource Optimization Configuration
+# This file contains rules for resource shrinking
+
+# Keep essential resources
+-keep class com.avnish.qrscan.R$* {
+    public static <fields>;
+}
+
+# Keep app logo
+-keep class com.avnish.qrscan.R$mipmap {
+    public static int app_logo;
+}
+
+# Keep essential drawables
+-keep class com.avnish.qrscan.R$drawable {
+    public static int ic_scan;
+    public static int ic_generate;
+    public static int ic_info;
+    public static int pattern_background;
+}
+
+# Keep essential colors
+-keep class com.avnish.qrscan.R$color {
+    public static int *;
+}
+
+# Keep essential strings
+-keep class com.avnish.qrscan.R$string {
+    public static int app_name;
+    public static int *;
+}
+
+# Remove unused resources
+-keep class com.avnish.qrscan.R$style {
+    public static int *;
+}
+
+# Remove unused layouts (using Compose)
+-keep class com.avnish.qrscan.R$layout {
+    public static int *;
+}
