@@ -59,8 +59,7 @@ import com.google.mlkit.vision.common.InputImage
 
 @Composable
 fun ScanScreen(
-    onNavigateToGenerate: () -> Unit,
-    onNavigateToInfo: () -> Unit,
+    onNavigateToGenerate: () -> Unit
 ) {
     var isScanning by remember { mutableStateOf(false) }
     var scanResult by remember { mutableStateOf<String?>(null) }

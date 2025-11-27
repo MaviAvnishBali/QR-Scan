@@ -27,8 +27,7 @@ import com.avnish.qrscan.ads.BannerAdView
 
 @Composable
 fun GenerateScreen(
-    onNavigateToScan: () -> Unit,
-    onNavigateToInfo: () -> Unit
+    onNavigateToScan: () -> Unit
 ) {
     val context = LocalContext.current
     val activity = context as Activity

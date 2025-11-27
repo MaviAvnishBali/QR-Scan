@@ -30,23 +30,26 @@ import androidx.navigation.compose.rememberNavController
 import com.avnish.qrscan.R
 import com.avnish.qrscan.ads.AdManager
 import com.avnish.qrscan.screens.GenerateScreen
-import com.avnish.qrscan.screens.InfoScreen
 import com.avnish.qrscan.screens.ScanScreen
+import com.avnish.qrscan.screens.SettingsScreen
 
 
 sealed class Screen(val route: String, val title: String, val iconResId: Int) {
     object Scan : Screen("scan", "Scan", R.drawable.ic_scan)
     object Generate : Screen("generate", "Generate", R.drawable.ic_generate)
-    object Info : Screen("info", "Info", R.drawable.ic_info)
+    object Settings : Screen("settings", "Settings", R.drawable.ic_settings)
 }
 
 @Composable
-fun MainNavigation() {
+fun MainNavigation(
+    onShowImmediateUpdate: (() -> Unit)? = null,
+    onShowFlexibleUpdate: (() -> Unit)? = null
+) {
     val navController = rememberNavController()
     val items = listOf(
         Screen.Scan,
         Screen.Generate,
-        Screen.Info
+        Screen.Settings
     )
 
     Scaffold(
@@ -118,11 +121,6 @@ fun MainNavigation() {
                         navController.navigate(Screen.Generate.route) {
                             popUpTo(Screen.Scan.route) { inclusive = true }
                         }
-                    },
-                    onNavigateToInfo = {
-                        navController.navigate(Screen.Info.route) {
-                            popUpTo(Screen.Scan.route) { inclusive = true }
-                        }
                     }
                 )
             }
@@ -132,25 +130,26 @@ fun MainNavigation() {
                         navController.navigate(Screen.Scan.route) {
                             popUpTo(Screen.Generate.route) { inclusive = true }
                         }
-                    },
-                    onNavigateToInfo = {
-                        navController.navigate(Screen.Info.route) {
-                            popUpTo(Screen.Generate.route) { inclusive = true }
-                        }
                     }
                 )
             }
-            composable(Screen.Info.route) {
-                InfoScreen(
+            composable(Screen.Settings.route) {
+                SettingsScreen(
                     onNavigateToScan = {
                         navController.navigate(Screen.Scan.route) {
-                            popUpTo(Screen.Info.route) { inclusive = true }
+                            popUpTo(Screen.Settings.route) { inclusive = true }
                         }
                     },
                     onNavigateToGenerate = {
                         navController.navigate(Screen.Generate.route) {
-                            popUpTo(Screen.Info.route) { inclusive = true }
+                            popUpTo(Screen.Settings.route) { inclusive = true }
                         }
+                    },
+                    onShowImmediateUpdate = {
+                        onShowImmediateUpdate?.invoke()
+                    },
+                    onShowFlexibleUpdate = {
+                        onShowFlexibleUpdate?.invoke()
                     }
                 )
             }
