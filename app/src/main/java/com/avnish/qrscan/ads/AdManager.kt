@@ -4,15 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import com.google.android.datatransport.BuildConfig
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -25,11 +16,17 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 object AdManager {
     private const val TAG = "AdManager"
     
-    // Banner Ad Unit ID (using default banner size)
-    private const val BANNER_AD_UNIT_ID = "ca-app-pub-6792593559558279/7821948023"
+    // Test Ad Unit IDs for development
+    private const val TEST_BANNER_AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111"
+    private const val TEST_INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712"
     
-    // Interstitial Ad Unit ID
-    private const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-6792593559558279/6017431208"
+    // Production Ad Unit IDs
+    private const val PROD_BANNER_AD_UNIT_ID = "ca-app-pub-6792593559558279/7425557891"
+    private const val PROD_INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-6792593559558279/6017431208"
+    
+    // Use test ads in debug mode, production ads in release mode
+    private val BANNER_AD_UNIT_ID = if (BuildConfig.DEBUG) TEST_BANNER_AD_UNIT_ID else PROD_BANNER_AD_UNIT_ID
+    private val INTERSTITIAL_AD_UNIT_ID = if (BuildConfig.DEBUG) TEST_INTERSTITIAL_AD_UNIT_ID else PROD_INTERSTITIAL_AD_UNIT_ID
     
     private const val PREFS_NAME = "qr_scan_prefs"
     private const val KEY_ADS_REMOVED = "ads_removed"
@@ -71,9 +68,31 @@ object AdManager {
 
     fun createBannerAd(context: Context): AdView {
         return AdView(context).apply {
-            setAdSize(AdSize.BANNER) // Using default banner size
+            // Use adaptive banner to avoid resizing warnings
+            val adSize = AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, AdSize.FULL_WIDTH)
+            setAdSize(adSize)
             adUnitId = BANNER_AD_UNIT_ID
-            loadAd(AdRequest.Builder().build())
+            
+            // Add ad listener for better error handling
+            adListener = object : com.google.android.gms.ads.AdListener() {
+                override fun onAdLoaded() {
+                    Log.d(TAG, "Banner ad loaded successfully")
+                }
+                
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    Log.e(TAG, "Banner ad failed to load: ${loadAdError.code} - ${loadAdError.message}")
+                }
+                
+                override fun onAdOpened() {
+                    Log.d(TAG, "Banner ad opened")
+                }
+                
+                override fun onAdClosed() {
+                    Log.d(TAG, "Banner ad closed")
+                }
+            }
+            
+            loadAd(adRequest)
         }
     }
 
@@ -90,42 +109,7 @@ object AdManager {
         updateLastAdShown()
     }
 
-    @Composable
-    fun BannerAd(
-        modifier: Modifier = Modifier,
-        adUnitId: String = BANNER_AD_UNIT_ID
-    ) {
-        val context = LocalContext.current
-        val lifecycleOwner = LocalLifecycleOwner.current
-        val adView = remember {
-            AdView(context).apply {
-                setAdSize(AdSize.BANNER) // Using default banner size
-                this.adUnitId = adUnitId
-                loadAd(adRequest)
-            }
-        }
 
-        DisposableEffect(lifecycleOwner) {
-            val observer = LifecycleEventObserver { _, event ->
-                when (event) {
-                    Lifecycle.Event.ON_PAUSE -> adView.pause()
-                    Lifecycle.Event.ON_RESUME -> adView.resume()
-                    Lifecycle.Event.ON_DESTROY -> adView.destroy()
-                    else -> {}
-                }
-            }
-            lifecycleOwner.lifecycle.addObserver(observer)
-            onDispose {
-                lifecycleOwner.lifecycle.removeObserver(observer)
-                adView.destroy()
-            }
-        }
-
-        AndroidView(
-            factory = { adView },
-            modifier = modifier
-        )
-    }
 
     fun cleanup() {
         interstitialAd = null
@@ -146,7 +130,7 @@ object AdManager {
 
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     interstitialAd = null
-                    Log.e(TAG, "Interstitial ad failed to load: ${loadAdError.message}")
+                    Log.e(TAG, "Interstitial ad failed to load: ${loadAdError.code} - ${loadAdError.message}")
                 }
             }
         )
