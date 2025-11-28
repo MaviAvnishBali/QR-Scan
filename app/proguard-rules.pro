@@ -81,8 +81,8 @@
 -keepattributes Signature
 -keepattributes *Annotation*
 
-# Remove debug attributes for release
--stripattributes SourceFile,LineNumberTable
+# Note: -stripattributes is not supported by R8
+# To remove debug info, configure in build.gradle.kts with isMinifyEnabled = true
 
 # Additional size optimizations
 -assumenosideeffects class * {

@@ -20,8 +20,8 @@ android {
         applicationId = "com.avnish.qrscan"
         minSdk = 24
         targetSdk = 35
-        versionCode = 5
-        versionName = "1.0.4"
+        versionCode = 7
+        versionName = "1.0.6"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -178,8 +178,8 @@ dependencies {
     // Accompanist (only essential)
     implementation(libs.accompanist.permissions)
 
-    // Logging (only in debug)
-    debugImplementation(libs.timber)
+    // Logging
+    implementation(libs.timber)
 
     // Testing
     testImplementation(libs.junit)
