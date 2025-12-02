@@ -27,6 +27,7 @@ espresso-core = "3.5.1"
 ui-test-junit4 = "1.6.1"
 core-ktx-version = "1.10.3"
 app-update-ktx = "2.1.0"
+window = "1.5.1"
 
 [libraries]
 # AndroidX Core
@@ -87,6 +88,7 @@ androidx-test-espresso-core = { group = "androidx.test.espresso", name = "espres
 androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "ui-test-junit4" }
 androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 app-update-ktx = { group = "com.google.android.play", name = "app-update-ktx", version.ref = "app-update-ktx" }
+androidx-window = { group = "androidx.window", name = "window", version.ref = "window" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

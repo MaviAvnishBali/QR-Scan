@@ -168,7 +168,6 @@ fun GenerateScreen(
                 BannerAdView(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
                 )
             }
         }

@@ -20,8 +20,8 @@ android {
         applicationId = "com.avnish.qrscan"
         minSdk = 24
         targetSdk = 35
-        versionCode = 7
-        versionName = "1.0.6"
+        versionCode = 8
+        versionName = "1.0.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -61,6 +61,9 @@ android {
             )
             firebaseCrashlytics {
                 mappingFileUploadEnabled = true
+            }
+            ndk {
+                debugSymbolLevel = "FULL"
             }
         }
         debug {
@@ -146,6 +149,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.app.update.ktx)
+    implementation(libs.androidx.window)
     debugImplementation(libs.androidx.compose.ui.tooling)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
